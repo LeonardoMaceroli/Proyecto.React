@@ -1,4 +1,4 @@
-ul {
+.list {
     display: flex;
     align-items: center;
     list-style-type: none;
@@ -13,7 +13,7 @@ li {
     float: left;
 }
 
-li a {
+.notActive {
     display: block;
     color: rgb(255, 255, 255);
     text-align: center;
@@ -21,10 +21,20 @@ li a {
     text-decoration: none;
 }
 
-li a:hover {
+.notActive:hover {
     background-color: #08c5f5;
 }
 
 .cartposition {
     margin-left: auto;
+}
+
+.isActive {
+    color: rgb(255, 255, 255);
+    padding: 14px 16px;
+    text-decoration: none;
+    background-color: #08c5f5;
+    &:hover {
+        background-color: #08c5f5;
+    }
 }

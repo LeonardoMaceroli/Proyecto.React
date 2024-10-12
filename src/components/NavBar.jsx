@@ -1,21 +1,55 @@
 import React from 'react'
-import '../styles/navbar.css'
+import styles from '../styles/navbar.module.css'
 import CartWidget from './CartWidget'
 import Logo from './Logo'
+import { Link, NavLink } from "react-router-dom"
 
-const navBar = () => {
+const NavBar = () => {
     return (
-        <ul>
-            <Logo/>
-            <li><a className="active" href="#home">Home</a></li>
-            <li><a href="news">News</a></li>
-            <li><a href="contact">Contact</a></li>
-            <li><a href="about">About</a></li>
-            <div className='cartposition'>
-            <CartWidget/>
-            </div>
-        </ul>
+        <nav>
+            <ul className={styles.list}>
+                <Logo
+                    className={({ isActive }) => {
+                        return isActive ? styles.isActive : styles.notActive
+                    }}
+                    to={"/"}>
+                </Logo>
+                <li>
+                    <NavLink
+                        className={({ isActive }) => {
+                            return isActive ? styles.isActive : styles.notActive
+                        }}
+                        to={"/"}
+                    >
+                        Home
+                    </NavLink>
+                </li>
+                <li>
+                    <NavLink
+                        className={({ isActive }) => {
+                            return isActive ? styles.isActive : styles.notActive
+                        }}
+                        to={"/category/jewelery"}
+                    >
+                        Jewelery
+                    </NavLink>
+                </li>
+                <li>
+                    <NavLink
+                        className={({ isActive }) => {
+                            return isActive ? styles.isActive : styles.notActive
+                        }}
+                        to={"/category/electronics"}
+                    >
+                        Electronics
+                    </NavLink>
+                </li>
+                <div className='cartposition'>
+                    <CartWidget />
+                </div>
+            </ul>
+        </nav>
     )
 }
 
-export default navBar
+export default NavBar
