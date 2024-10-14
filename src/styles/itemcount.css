@@ -5,6 +5,8 @@
 button {
     margin: auto;
     display: block;
+    font-size: 1.5rem;
+    font-weight: bold;
     background-color: #78e3eb;
     color: rgb(255, 255, 255);
     border: none;

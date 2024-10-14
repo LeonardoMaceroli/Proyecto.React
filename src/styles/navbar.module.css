@@ -1,5 +1,6 @@
 .list {
     display: flex;
+    justify-content: space-between;
     align-items: center;
     list-style-type: none;
     margin: 0;
@@ -7,10 +8,32 @@
     overflow: hidden;
     background-color: #78e3eb;
     text-align: end;
+    width: 100%;
 }
 
-li {
-    float: left;
+/* .logo {
+    margin-right: 40rem;
+} */
+
+.categories {
+    display: flex;
+    align-items: center;
+    margin: auto;
+}
+
+.cartposition {
+    margin-right: 30px;
+}
+
+.isActive {
+    color: rgb(255, 255, 255);
+    padding: 14px 16px;
+    text-align: center;
+    text-decoration: none;
+    background-color: #08c5f5;
+    &:hover {
+        background-color: #08c5f5;
+    }
 }
 
 .notActive {
@@ -23,18 +46,4 @@ li {
 
 .notActive:hover {
     background-color: #08c5f5;
-}
-
-.cartposition {
-    margin-left: auto;
-}
-
-.isActive {
-    color: rgb(255, 255, 255);
-    padding: 14px 16px;
-    text-decoration: none;
-    background-color: #08c5f5;
-    &:hover {
-        background-color: #08c5f5;
-    }
 }

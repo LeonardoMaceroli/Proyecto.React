@@ -1,24 +1,24 @@
-import React from 'react'
-import styles from '../styles/navbar.module.css'
-import CartWidget from './CartWidget'
-import Logo from './Logo'
-import { Link, NavLink } from "react-router-dom"
+import React from 'react';
+import styles from '../styles/navbar.module.css';
+import CartWidget from './CartWidget';
+import { NavLink } from "react-router-dom";
 
 const NavBar = () => {
     return (
         <nav>
             <ul className={styles.list}>
-                <Logo
-                    className={({ isActive }) => {
-                        return isActive ? styles.isActive : styles.notActive
-                    }}
-                    to={"/"}>
-                </Logo>
+                <li className={styles.logo}>
+                    <NavLink
+                        className={({ isActive }) => isActive ? styles.isActive : styles.notActive}
+                        to={"/"}
+                    >
+                        LM Shop
+                    </NavLink>
+                </li>
+                <div className={styles.categories}>
                 <li>
                     <NavLink
-                        className={({ isActive }) => {
-                            return isActive ? styles.isActive : styles.notActive
-                        }}
+                        className={({ isActive }) => isActive ? styles.isActive : styles.notActive}
                         to={"/"}
                     >
                         Home
@@ -26,9 +26,7 @@ const NavBar = () => {
                 </li>
                 <li>
                     <NavLink
-                        className={({ isActive }) => {
-                            return isActive ? styles.isActive : styles.notActive
-                        }}
+                        className={({ isActive }) => isActive ? styles.isActive : styles.notActive}
                         to={"/category/jewelery"}
                     >
                         Jewelery
@@ -36,20 +34,19 @@ const NavBar = () => {
                 </li>
                 <li>
                     <NavLink
-                        className={({ isActive }) => {
-                            return isActive ? styles.isActive : styles.notActive
-                        }}
+                        className={({ isActive }) => isActive ? styles.isActive : styles.notActive}
                         to={"/category/electronics"}
                     >
                         Electronics
                     </NavLink>
                 </li>
-                <div className='cartposition'>
+                </div>
+                <div className={styles.cartposition}>
                     <CartWidget />
                 </div>
             </ul>
         </nav>
-    )
+    );
 }
 
-export default NavBar
+export default NavBar;

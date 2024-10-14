@@ -31,6 +31,4 @@ return (
 
 }
 
-
-
 export default ItemCount

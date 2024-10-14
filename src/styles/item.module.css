@@ -13,13 +13,13 @@
     border-radius: 15px;
     padding: 10px;
     text-align: center;
-    img {
-        width: 100%;
-        height: 250px;
-        object-fit: cover;
-    }
 }
 
+.container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
 
 button {
     margin: auto;
@@ -30,4 +30,8 @@ button {
     padding: 10px 20px;
     border-radius: 5px;
     cursor: pointer;
+}
+
+.container::-webkit-scrollbar {
+    width: 0px;
 }
