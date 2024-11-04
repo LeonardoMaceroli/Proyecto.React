@@ -1,46 +1,46 @@
-import React, { useEffect, useState } from "react"
-import products from "../assets/mockData.json"
-import ItemDetail from "./ItemDetail"
-import styles from "../styles/itemdetailcontainer.module.css"
-import { useParams } from "react-router-dom"
+import React, { useEffect, useState } from "react";
+import products from "../assets/mockData.json";
+import ItemDetail from "./ItemDetail";
+import { useParams } from "react-router-dom";
 
 const ItemDetailContainer = () => {
-    const { id } = useParams();
     const [product, setProduct] = useState(null);
-    const [loading, setLoading] = useState(true);
-
-    
-    const getItem = () => {
-        return new Promise((resolve) => {
-            setTimeout(() => {
-                const foundProduct = products.find((item) => item.id === parseInt(id));
-                resolve(foundProduct);
-            }, 2000);
-        });
-    };
+    const { id } = useParams();
 
     useEffect(() => {
-        const fetchProduct = async () => {
-            setLoading(true);
-            const productData = await getItem();
-            setProduct(productData);
-            setLoading(false);
+        const fetchProduct = () => {
+            const productFound = products.find(product => product.id === parseInt(id, 10));
+            setProduct(productFound);
         };
-
-        fetchProduct();
+        
+        setTimeout(fetchProduct, 1000); // Simula un retraso de 1 segundo
     }, [id]);
 
-    return (
-        <div className={styles.container}>
-            {loading ? (
-                <h1>Loading...</h1>
-            ) : product ? (
-                <ItemDetail product={product}/>
-            ) : (
-                <p>Product not found</p>
-            )}
-        </div>
+    return product ? (
+        <ItemDetail product={product} />
+    ) : (
+        <p>Producto no encontrado</p>
     );
 };
 
 export default ItemDetailContainer;
+
+
+// import React, { useEffect, useState } from "react"
+// import products from "../assets/mockData.json"
+// import ItemDetail from "./ItemDetail"
+// import { useParams } from "react-router-dom"
+
+// const ItemDetailContainer = () => {
+//     const [product, setProduct] = useState(null)
+//     const {id} = useParams()
+
+//     useEffect(() => {
+//         const productFound = products.find(product => product.id === Number(id))
+//         setProduct(productFound)
+//     }, [id])
+
+//     return product && <ItemDetail product={product}/>
+// }
+
+// export default ItemDetailContainer

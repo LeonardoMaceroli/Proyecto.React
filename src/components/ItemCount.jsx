@@ -1,34 +1,32 @@
-import '../styles/itemcount.css';
-import { useState } from "react";
+import React, { useState } from "react";
+import styles from "../styles/itemcount.module.css";
 
-const ItemCount = ({ stock, initial, onAdd }) => {
-    const [quantity, setQuantity] = useState(initial)
+const ItemCount = ({ initial, stock, onAdd }) => {
+    const [quantity, setQuantity] = useState(initial);
 
     const increment = () => {
         if (quantity < stock) {
-            setQuantity(quantity + 1)
-    }
-}
+            setQuantity(quantity + 1);
+            console.log("Incremented to: ", quantity + 1);
+        }
+    };
+    const decrement = () => {
+        if (quantity > 1) {
+            setQuantity(quantity - 1);
+            console.log("Decremented to: ", quantity - 1);
+        }
+    };
 
-const decrement = () => {
-    if (quantity > 1) {
-        setQuantity(quantity - 1)
-    }
-}
-
-return (
-    <div className='counter'>
-        <div className='controls'>
-            <button onClick={decrement}>-</button>
-            <h4 className='number'>{quantity}</h4>
-            <button onClick={increment}>+</button>
+    return (
+        <div className={styles.container}>
+            <div className={styles.operators}>
+                <button onClick={decrement}>-</button>
+                <p>{quantity}</p>
+                <button onClick={increment}>+</button>
+            </div>
+            <button className={styles.addcart} onClick={() => onAdd(quantity)}>Add to cart</button>
         </div>
-        <div>
-            <button onClick={() => onAdd(quantity)} disabled={!stock}>Add to cart</button>
-        </div>
-    </div>
-)
+    );
+};
 
-}
-
-export default ItemCount
+export default ItemCount;
