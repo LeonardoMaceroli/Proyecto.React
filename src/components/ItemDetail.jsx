@@ -70,4 +70,4 @@ const ItemDetail = ({ product }) => {
     );
 };
 
-export default ItemDetail;
+export default ItemDetail
