@@ -40,45 +40,9 @@ const ItemListContainer = () => {
 
 
         })()
-
+        //agregar un loading..
     }, [categoryId])
     return <ItemList products={products} />
 }
-
-//     useEffect(() => {
-//         const promise1 = new Promise((res, rej) => {
-//             setTimeout(() => {
-//                 res(mockProducts);
-//             }, 2000);
-//         });
-
-//         const getProducts = async () => {
-//             try {
-//                 setLoading(true);
-//                 const products = await promise1;
-//                 let productsFiltered;
-//                 if (categoryId) {
-//                     productsFiltered = products.filter(
-//                         (product) => product.category === categoryId
-//                     );
-//                 } else {
-//                     productsFiltered = products;
-//                 }
-//                 setProducts(productsFiltered);
-//                 setLoading(false);
-//             } catch (error) {
-//                 console.log(error);
-//             }
-//         };
-
-//         getProducts();
-//     }, [categoryId]);
-
-//     return loading ? (
-//         <h1>Loading... </h1>
-//     ) : (
-//         <ItemList products={products} />
-//     );
-// };
 
 export default ItemListContainer

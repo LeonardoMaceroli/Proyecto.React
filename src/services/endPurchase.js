@@ -1,93 +1,90 @@
-// import {
-//     addDoc,
-//     collection,
-//     doc,
-//     runTransaction,
-//     serverTimestamp,
-// } from "firebase/firestore"
-// import { db } from "../firebase/config"
 
-// const endPurchase = async (cart) => {
-//     const productsToUpdateRefs = []
+//chequear stock, verificar que sean validos contra la cantidad del cart, actualizar cantidades de todos los productos y generar la orden (todo esta englobado
+//dentro de una transaction)
 
-//     // Create an array of references to all the products in cart.
-//     for (const cartProduct of cart) {
-//         const productRef = doc(db, "products", cartProduct.id)
-//         productsToUpdateRefs.push({ ref: productRef, id: cartProduct.id })
-//     }
+import { addDoc, collection, doc, runTransaction, serverTimestamp } from "firebase/firestore";
+import { db } from "../firebase/config";
 
-//     // Create a ref for orders collection
-//     const orderCollectionRef = collection(db, "orders")
+const endPurchase = async (cart, customerData) => {
+    const productsToUpdateRefs = [];
 
-//     try {
-//         const order = await runTransaction(db, async (transaction) => {
-//             //Create an auxiliar array for stocks to be updated
-//             const stocksUpdated = []
+    // Crear un array de referencias a todos los productos en el carrito.
+    for (const cartProduct of cart) {
+        const productRef = doc(db, "products", cartProduct.id);
+        productsToUpdateRefs.push({ ref: productRef, id: cartProduct.id });
+    }
 
-//             //1. Check valid stock of every product in cart
-//             for (const productToUpdate of productsToUpdateRefs) {
-//                 const { ref } = productToUpdate
-//                 const product = await transaction.get(ref)
-//                 if (!product.exists()) {
-//                     throw "Product does not exist!"
-//                 }
-//                 console.log({ data: { ...product.data() } })
+    // Crear una referencia para la colección de órdenes
+    const orderCollectionRef = collection(db, "orders");
 
-//                 //Product in cart in order to know the quantity in cart
-//                 const productInCart = cart.find(
-//                     (cartElement) => cartElement.id === product.id
-//                 )
+    try {
+        const order = await runTransaction(db, async (transaction) => {
+            // Crear un array auxiliar para los stocks que se actualizarán
+            const stocksUpdated = [];
 
-//                 console.log({ productInCart })
+            // 1. Verificar el stock válido de cada producto en el carrito
+            for (const productToUpdate of productsToUpdateRefs) {
+                const { ref } = productToUpdate;
+                const product = await transaction.get(ref);
+                if (!product.exists()) {
+                    throw new Error("Product does not exist!");
+                }
+                console.log({ data: { ...product.data() } });
 
-//                 //Check the resulting stock
-//                 const resultStock =
-//                     product.data().stock - productInCart.quantity
+                // Producto en el carrito para conocer la cantidad en el carrito
+                const productInCart = cart.find(
+                    (cartElement) => cartElement.id === product.id
+                );
 
-//                 if (resultStock < 0)
-//                     throw `Product: ${
-//                         product.data().title
-//                     }, doesn't have enough stock. Stock: ${
-//                         product.data().stock
-//                     }, quantity added to cart: ${productInCart.quantity}.`
+                console.log({ productInCart });
 
-//                 //Add the result stock to the auxiliary array
-//                 stocksUpdated.push({
-//                     productId: product.id,
-//                     stock: resultStock,
-//                 })
-//             }
+                // Verificar el stock resultante
+                const resultStock =
+                    product.data().stock - productInCart.quantity;
 
-//             //2. Update the stock of the products (writing procedures must be after reading procedures)
-//             for (const product of productsToUpdateRefs) {
-//                 const { ref, id } = product
-//                 const stockUpdated = stocksUpdated.find(
-//                     (stock) => stock.productId === id
-//                 )
-//                 console.log({ stockUpdated })
-//                 transaction.update(ref, {
-//                     stock: stockUpdated.stock,
-//                 })
-//             }
+                if (resultStock < 0) {
+                    throw new Error(
+                        `Product: ${product.data().title}, doesn't have enough stock. Stock: ${product.data().stock}, quantity added to cart: ${productInCart.quantity}.`
+                    );
+                }
 
-//             //3. Creates the order, no id is given
-//             const order = {
-//                 products: {...cart},
-//                 user: {
-//                     name: "Sebas"
-//                 },
-//                 tiemstamp: serverTimestamp()
-//             }
-//             console.log(order)
-//             addDoc(orderCollectionRef, order)
-//             return order
-//         })
+                // Agregar el stock resultante al array auxiliar
+                stocksUpdated.push({
+                    productId: product.id,
+                    stock: resultStock,
+                });
+            }
 
-//         console.log("Order created successfully!", order)
-//     } catch (e) {
-//         //Any throw in try block will be caught
-//         console.error(e)
-//     }
-// }
+            // 2. Actualizar el stock de los productos (los procedimientos de escritura deben ser después de los procedimientos de lectura)
+            for (const product of productsToUpdateRefs) {
+                const { ref, id } = product;
+                const stockUpdated = stocksUpdated.find(
+                    (stock) => stock.productId === id
+                );
+                console.log({ stockUpdated });
+                transaction.update(ref, {
+                    stock: stockUpdated.stock,
+                });
+            }
 
-// export default endPurchase
+            // 3. Crear la orden
+            const order = {
+                products: cart,
+                user: customerData,
+                total: cart.reduce((acc, item) => acc + item.price * item.quantity, 0),
+                timestamp: serverTimestamp()
+            };
+
+            await addDoc(orderCollectionRef, order);
+            return order;
+        });
+
+        console.log("Order created successfully!", order);
+    } catch (e) {
+        // Cualquier throw en el bloque try será capturado aquí
+        console.error("Error creating order: ", e);
+        throw e;
+    }
+};
+
+export default endPurchase;

@@ -1,0 +1,89 @@
+/* checkout.module.css */
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+.mainTitle {
+    text-align: center;
+    font-size: 2rem;
+    color: #333;
+}
+
+.cartDetails {
+    background-color: #f8f8f8;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.cartDetails h3 {
+    font-size: 1.5rem;
+    color: #333;
+}
+
+.cartItem {
+    padding: 5px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.cartItem p {
+    font-size: 1rem;
+    color: #555;
+}
+
+.cartDetails p {
+    font-size: 1.2rem;
+    color: #333;
+    font-weight: bold;
+}
+
+.formulario {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.formulario input {
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.formulario input:focus {
+    outline: none;
+    border-color: #78e3eb;
+}
+
+.enviar {
+    background-color: #4CAF50;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.enviar:hover {
+    background-color: #45a049;
+}
+
+.error {
+    color: #d9534f;
+    font-size: 0.9rem;
+    margin-top: -10px;
+}
+
+h1 {
+    font-size: 1.8rem;
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+}

@@ -9,8 +9,18 @@
         padding-top: 20px;
         width: 200px;
     }
+
+    .title {
+        color: white;
+    }
+
     button {
         height: 50px;
+        background-color: #78e3eb;
+    }
+    button:hover {
+        background-color: #08c5f5;
+        transition: background-color 0.3s ease;
     }
     p{
         text-align: center;

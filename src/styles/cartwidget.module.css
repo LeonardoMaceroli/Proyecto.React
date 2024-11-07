@@ -1,0 +1,17 @@
+.cartLink {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    align-items: center;
+}
+
+.cartIcon {
+    width: 40px;
+}
+
+.cartQuantity {
+    font-size: 1.2rem; 
+    color: #000; 
+    font-weight: bold; 
+    margin-left: 5px; 
+}

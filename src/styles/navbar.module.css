@@ -11,10 +11,6 @@
     width: 100%;
 }
 
-/* .logo {
-    margin-right: 40rem;
-} */
-
 .categories {
     display: flex;
     align-items: center;
@@ -33,6 +29,7 @@
     background-color: #08c5f5;
     &:hover {
         background-color: #08c5f5;
+        
     }
 }
 
@@ -46,4 +43,5 @@
 
 .notActive:hover {
     background-color: #08c5f5;
+    
 }
