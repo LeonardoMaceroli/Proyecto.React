@@ -4,7 +4,7 @@ import CartContext from "../context/CartContext";
 import { NavLink } from "react-router-dom";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../firebase/config";
-import styles from "../styles/ItemDetail.module.css";
+import styles from "../styles/itemdetail.module.css";
 import Swal from "sweetalert2";
 
 const ItemDetail = ({ product }) => {
