@@ -2,31 +2,37 @@ import React, { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import CartContext from '../context/CartContext';
 import styles from '../styles/checkout.module.css';
-import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
-import { db } from '../firebase/config';
+import endPurchase from '../services/endPurchase';
+import Swal from 'sweetalert2';
 
 const Checkout = () => {
     const [pedidoId, setPedidoId] = useState("");
+    const [clientData, setClientData] = useState({});
 
     const { cart, totalPrice, clearCart } = useContext(CartContext);
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
 
     const purchase = async (data) => {
-        const order = {
-            client: data,
-            products: cart,
-            total: totalPrice(),
-            timestamp: serverTimestamp()
-        };
-
-        const pedidosRef = collection(db, "orders");
+        if (cart.length === 0) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'The cart is empty, please add products before proceeding with the purchase',
+            });
+            return;
+        }
 
         try {
-            const docRef = await addDoc(pedidosRef, order);
-            setPedidoId(docRef.id);
+            const result = await endPurchase(cart, data);
+            setPedidoId(result.order.id);
+            setClientData({ ...data, total: totalPrice() });
             clearCart();
         } catch (error) {
-            console.error("Error adding document: ", error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'There was a problem processing your purchase. Please try again.',
+            });
         }
     };
 
@@ -37,7 +43,17 @@ const Checkout = () => {
         return (
             <div className={styles.container}>
                 <h1 className={styles.mainTitle}>Thank you for your purchase</h1>
-                <p>Your order number is: {pedidoId}</p>
+                <div className={styles.client}>
+                    <h2>Your order number is: {pedidoId}</h2>
+                    <h3>Client data:</h3>
+                    <ul>
+                        <li>Name: {clientData.nombre}</li>
+                        <li>Last Name: {clientData.apellido}</li>
+                        <li>Phone: {clientData.telefono}</li>
+                        <li>Email: {clientData.email}</li>
+                        <li>Total Purchase Price: ${clientData.total}</li>
+                    </ul>
+                </div>
             </div>
         );
     }
@@ -47,9 +63,9 @@ const Checkout = () => {
             <h1>End purchase</h1>
             <form className={styles.formulario} onSubmit={handleSubmit(purchase)}>
                 <div className={styles.cartDetails}>
-                    {cart.map((item, index) => (
+                    {cart.map((product, index) => (
                         <div key={index} className={styles.cartItem}>
-                            <p>{item.name} Quantity: {item.quantity}</p>
+                            <p>{product.title}: {product.quantity}</p>
                         </div>
                     ))}
                     <p>Total: ${totalPrice()}</p>

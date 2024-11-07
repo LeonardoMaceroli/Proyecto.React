@@ -25,7 +25,7 @@ const Cart = () => {
             cart.length > 0 ?
                 <div className={styles.cartSummary}>
                     <button onClick={handleClear}>Clear cart</button>
-                    <NavLink to="/checkout" className={styles.checkout}>Finalizar compra</NavLink>
+                    <NavLink to="/checkout" className={styles.checkout}>End purchase</NavLink>
                     <h2>Total Price: ${totalPrice()}</h2>
                 </div> :
                     <h1>There are no products in the cart</h1>

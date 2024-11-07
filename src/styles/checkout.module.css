@@ -1,10 +1,60 @@
-/* checkout.module.css */
 .container {
     max-width: 900px;
     margin: 0 auto;
     padding: 20px;
     font-family: Arial, sans-serif;
 }
+
+.client {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #f5f5f5;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    margin: 0 auto;
+    font-family: Arial, sans-serif;
+    color: #333;
+}
+
+.client h2 {
+    text-align: center;
+}
+
+.client h3 {
+    text-align: left;
+    width: 100%;
+    padding-left: 0;
+    margin-left: 0;
+}
+
+.client p {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #444;
+}
+
+.client ul {
+    list-style-type: none;
+    text-align: left;
+    margin-left: 0;
+    width: 100%;
+    padding: 0;
+}
+
+.client li {
+    font-size: 16px;
+    margin: 5px 0;
+    text-decoration: none;
+}
+
+.client li span {
+    font-weight: bold;
+}
+
 
 .mainTitle {
     text-align: center;

@@ -7,33 +7,33 @@ import { db } from "../firebase/config";
 
 const ItemDetailContainer = () => {
     const [product, setProduct] = useState(null);
+    const [loading, setLoading] = useState(false);
     const { id } = useParams();
     const navigate = useNavigate();
 
     useEffect(() => {
 
         (async () => {
-
+            setLoading(true)
             try {
                 const docRef = doc(db, "products", id);
                 const docSnap = await getDoc(docRef);
 
                 if (docSnap.exists()) {
-                    console.log("Document data:", docSnap.data());
                     setProduct({...docSnap.data(), id})
                 } else {
-                    console.log("No such document!");
                     navigate("/product-not-found");
                 }
 
             } catch (error) {
-                console.log("error fetching product:", error);
                 navigate("/product-not-found")
+            } finally {
+                setLoading(false)
             }
         })()
 
     }, [id, navigate])
 
-    return product && <ItemDetail product={product} />
+    return loading ? <h1>Loading..</h1> : product && <ItemDetail product={product} />
 }
 export default ItemDetailContainer;

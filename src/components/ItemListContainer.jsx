@@ -7,12 +7,12 @@ import { collection, query, where, getDocs } from "firebase/firestore";
 
 const ItemListContainer = () => {
     const [products, setProducts] = useState([]);
-    // const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(false);
     const { categoryId } = useParams();
 
     useEffect(() => {
         (async () => {
-
+            setLoading(true)
             try {
                 let productsFiltered = []
 
@@ -21,28 +21,26 @@ const ItemListContainer = () => {
 
                     const querySnapshot = await getDocs(q);
                     querySnapshot.forEach((doc) => {
-                        // doc.data() is never undefined for query doc snapshots
-                        console.log(doc.id, " => ", doc.data());
                         productsFiltered.push({ id: doc.id, ...doc.data() })
                     });
 
                 } else {
                     const querySnapshot = await getDocs(collection(db, "products"))
                     querySnapshot.forEach((doc) => {
-                        console.log(`${doc.id} => ${JSON.stringify(doc.data(), null, 2)}`)
                         productsFiltered.push({ id: doc.id, ...doc.data() })
                     })
                 }
                 setProducts(productsFiltered)
             } catch (error) {
-                console.log(error)
+
+            } finally {
+                setLoading(false)
             }
 
 
         })()
-        //agregar un loading..
     }, [categoryId])
-    return <ItemList products={products} />
+    return loading  ? <h1>Loading..</h1> : <ItemList products={products} />
 }
 
 export default ItemListContainer
