@@ -95,19 +95,19 @@ const Checkout = () => {
                     placeholder="Enter last name"
                     {...register("lastname", { required: true })}
                 />
-                {errors.apellido && <p className={styles.error}>Last name is required</p>}
+                {errors.lastname && <p className={styles.error}>Last name is required</p>}
                 <input
                     type="text"
                     placeholder="Enter your phone"
                     {...register("phone", { required: true })}
                 />
-                {errors.telefono && <p className={styles.error}>Phone is required</p>}
+                {errors.phone && <p className={styles.error}>Phone is required</p>}
                 <input
                     type="email"
                     placeholder="Enter your email"
                     {...register("email", { required: true })}
                 />
-                {errors.email && <p className={styles.error}>Email es obligatorio</p>}
+                {errors.email && <p className={styles.error}>Email is required</p>}
                 <input
                     type="email"
                     placeholder="Repeat your email"
